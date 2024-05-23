@@ -8,14 +8,23 @@ namespace poeditoravalonia.ViewModels;
 
 public class MainViewModel : ViewModelBase
 {
-    public string Greeting { get; set; } = "Welcome to Avalonia!";
-    public string ProjectId { get; set; } = "";
-    public string ApiKey { get; set; } = "";
+    private string termSearch = "";
+    private LanguagesListLong_languages? currentLanguage;
+    private ProjectList_projects? currentProject;
 
+    public string ApiKey { get; set; } = "";
+    public string TermSearch
+    {
+        get => termSearch; 
+        set
+        {
+            termSearch = value;
+            this.RaisePropertyChanged();
+            this.RaisePropertyChanged(nameof(Terms));
+        }
+    }
     public ProjectList_projects[] Projects { get; set; } = Array.Empty<ProjectList_projects>();
     public Task<LanguagesListLong_languages[]> Languages => LoadProjectLanguages();
-
-    private ProjectList_projects? currentProject;
 
     public ProjectList_projects? CurrentProject
     {
@@ -28,8 +37,6 @@ public class MainViewModel : ViewModelBase
             this.RaisePropertyChanged(nameof(Terms));
         }
     }
-
-    private LanguagesListLong_languages? currentLanguage;
 
     public LanguagesListLong_languages? CurrentLanguage
     {
@@ -99,6 +106,6 @@ public class MainViewModel : ViewModelBase
             Id = currentProject.Id,
             Language = currentLanguage.Code,
         });
-        return projects.Result.Terms.ToArray();
+        return projects.Result.Terms.Where(_ => string.IsNullOrWhiteSpace(TermSearch) || _.Term.Contains(TermSearch)).ToArray();
     }
 }
