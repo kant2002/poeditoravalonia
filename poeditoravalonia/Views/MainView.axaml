@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:vm="clr-namespace:poeditoravalonia.ViewModels"
+             xmlns:client="clr-namespace:poeditoravalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="poeditoravalonia.Views.MainView"
              x:DataType="vm:MainViewModel">
@@ -22,6 +23,56 @@
       <TextBox Text="{Binding ApiKey}" HorizontalAlignment="Left" />
       <Button Command="{Binding LoadKeysCommand}">Load keys</Button>
     </StackPanel>
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center"/>
+    <Grid ColumnDefinitions="1*, 3*">
+      <ListBox ItemsSource="{Binding Projects}" SelectedItem="{Binding CurrentProject}">
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Border BorderBrush="Red" BorderThickness="1"
+                    CornerRadius="4" Padding="4">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{ReflectionBinding Id}" Padding="0,0,10,0"/>
+                <TextBlock Text="{ReflectionBinding Name}"/>
+              </StackPanel>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+      <StackPanel Grid.Column="1">
+        <ComboBox ItemsSource="{Binding Languages^}" SelectedItem="{Binding CurrentLanguage}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{ReflectionBinding Code}" Padding="0,0,10,0"/>
+                <TextBlock Text="{ReflectionBinding Name}"/>
+              </StackPanel>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
+        <!--<ListBox ItemsSource="{Binding Terms^}">
+          <ListBox.ItemTemplate>
+            <DataTemplate>
+              <Border BorderBrush="Red" BorderThickness="1"
+                      CornerRadius="4" Padding="4">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="{ReflectionBinding Term}" Padding="0,0,10,0" />
+                  <TextBlock Text="{ReflectionBinding Context}" Padding="0,0,10,0" />
+                  <TextBlock Text="{ReflectionBinding Translation.Content}" />
+                </StackPanel>
+              </Border>
+            </DataTemplate>
+          </ListBox.ItemTemplate>
+        </ListBox>-->
+        <DataGrid Margin="20" ItemsSource="{Binding Terms^}"
+          IsReadOnly="False"
+          GridLinesVisibility="All"
+          BorderThickness="1" BorderBrush="Gray">
+          <DataGrid.Columns>
+            <DataGridTextColumn Header="Term"  Binding="{ReflectionBinding Term}" IsReadOnly="True" />
+            <DataGridTextColumn Header="Context" Binding="{ReflectionBinding Context}" IsReadOnly="True" />
+            <DataGridTextColumn Header="Translation" Binding="{ReflectionBinding Translation.Content}" />
+          </DataGrid.Columns>
+        </DataGrid>
+      </StackPanel>
+    </Grid>
   </StackPanel>
 </UserControl>
