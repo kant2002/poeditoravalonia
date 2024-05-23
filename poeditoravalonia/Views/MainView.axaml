@@ -1,0 +1,27 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:vm="clr-namespace:poeditoravalonia.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="poeditoravalonia.Views.MainView"
+             x:DataType="vm:MainViewModel">
+  <Design.DataContext>
+    <!-- This only sets the DataContext for the previewer in an IDE,
+         to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs) -->
+    <vm:MainViewModel />
+  </Design.DataContext>
+
+  <StackPanel>
+    <StackPanel VerticalAlignment="Top" Orientation="Horizontal">
+      <TextBlock Text="Greeting" HorizontalAlignment="Center" VerticalAlignment="Center" />
+      <TextBox Text="{Binding Greeting}" HorizontalAlignment="Left" />
+      <TextBlock Text="Project Id" HorizontalAlignment="Center" VerticalAlignment="Center" />
+      <TextBox Text="{Binding ProjectId}" HorizontalAlignment="Left" />
+      <TextBlock Text="Api key" HorizontalAlignment="Center" VerticalAlignment="Center" />
+      <TextBox Text="{Binding ApiKey}" HorizontalAlignment="Left" />
+      <Button Command="{Binding LoadKeysCommand}">Load keys</Button>
+    </StackPanel>
+    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center"/>
+  </StackPanel>
+</UserControl>
